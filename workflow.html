@@ -1,0 +1,102 @@
+<!-- This document shows the detailed pdf download workflow, and
+identify some of the key elements to be used in the downloader script
+: -->
+
+<!-- Company Views: (button click) -->
+<TD onmouseleave=outTopMenu(this,captureMouseXCoordinates(this),captureMouseYCoordinates(this)); onclick="weOpenGroup('38797-13');"
+  onmouseenter="overTopMenu(this);popupSubMenu('38797-13',this.parentElement,true);event.cancelBubble=true;return false;" id=td13 title="" class=topnavselected noWrap index="13" oldclassName="topnavselected">Company Views</TD>
+
+<!-- Research: (button click) -->
+<TD onmouseleave=outSubMenu(this,captureMouseXCoordinates(this),captureMouseYCoordinates(this)); onclick="weOpenGroup('38800-21');"
+  onmouseenter="overSubMenu(this);popupSubMenu('38800-21',this.parentElement,false);event.cancelBubble=true;return false;" id=tdPages9 title="" class=subnavgrpselected height="100%" noWrap oldclassName="subnavgrpselected">Research<IMG onclick=""
+    title="" style="VERTICAL-ALIGN: middle; MARGIN-LEFT: 2px" alt=select src="https://www.thomsonone.com/T1WFResources/3_7_9_18833/ThomsonStyles/en-US/Images/tn_page_arrow_down.gif" width=8 height=5
+    oldsrc="https://www.thomsonone.com/T1WFResources/3_7_9_18833/ThomsonStyles/en-US/Images/tn_page_arrow_down.gif"></TD>
+
+<!-- Symbol/name input box: (input text,
+for loop over all symbol/names read from xlsx) -->
+<INPUT tabIndex=5 id=trackInput style="WIDTH: 130px" onkeypress="return symbolBoxKeyDownHandler(this)" onclick="return onBroadcastBoxClick(this)" type=text>
+
+<!-- Go button: (click) -->
+<IMG tabIndex=6 title=Go id=go style="BORDER-LEFT-WIDTH: 0px; HEIGHT: 17px; BORDER-RIGHT-WIDTH: 0px; WIDTH: 20px; BORDER-BOTTOM-WIDTH: 0px; BORDER-TOP-WIDTH: 0px" onkeydown=weSubmitActiveKeyOnKeyDown() onclick=weSubmitActiveKey() alt=Go
+  src="https://www.thomsonone.com/EntityManager/Images/en-US/entityManagerGo.gif?version=18833">
+
+<!-- [After loaded] -->
+<!-- Date: (select 'Custom') -->
+<SELECT onchange="OnDateRangeSelectionChanged('ctl00__criteria_dateRange','ctl00__criteria__fromDate','ctl00__criteria__toDate','MM/dd/yy', '14400');" id=ctl00__criteria_dateRange style="WIDTH: 150px" name=ctl00$_criteria$dateRange>
+  <OPTION value=All>All (Max 2000 Reports)</OPTION>
+  <OPTION value=7>Last 7 Days</OPTION>
+  <OPTION value=30>Last 30 Days</OPTION>
+  <OPTION value=60>Last 60 Days</OPTION>
+  <OPTION value=90>Last 90 Days</OPTION>
+  <OPTION value=180>Last 6 Months</OPTION>
+  <OPTION value=365>Last 1 Year</OPTION>
+  <OPTION selected value=Custom>Custom</OPTION>
+</SELECT>
+<!-- Time range: -->
+<!-- From date: (input 01/01/15)-->
+<INPUT onbeforepaste="CalandarTextBoxSelection('ctl00__criteria_dateRange')" onclick="CalandarTextBoxSelection('ctl00__criteria_dateRange',this)"
+  onblur="javascript:calendar.ValidateDate('ctl00__criteria__toDate', 'ctl00__criteria__fromDate', 'ctl00__criteria_dateRange')" id=ctl00__criteria__fromDate style="WIDTH: 100px" maxLength=10 value=06/30/19 name=ctl00$_criteria$_fromDate>
+<!-- To date: (input 01/01/18) -->
+<INPUT onbeforepaste="CalandarTextBoxSelection('ctl00__criteria_dateRange')" onclick="CalandarTextBoxSelection('ctl00__criteria_dateRange',this)" id=ctl00__criteria__toDate style="WIDTH: 100px" maxLength=10 value=09/28/19
+  name=ctl00$_criteria$_toDate>
+
+<!-- Contributor: not plain text, need to input text and then select-->
+<INPUT id=contributors.searchText size=57>
+
+<TBODY class=dijitReset dojoAttachPoint="bodyNode" dojoAttachEvent="onmouseup:_onBodyMouseUp,onmouseover:_onBodyMouseOver,onmouseout:_onBodyMouseOut">
+  <TR role=option class="dijitReset dijitMenuItem">
+    <TD><B>BARCLAYS</B></TD>
+  </TR>
+  <TR role=option class="dijitReset dijitMenuItem">
+    <TD><B>BARCLAYS</B> BANK</TD>
+  </TR>
+  <TR role=option class="dijitReset dijitMenuItem">
+    <TD><B>BARCLAYS</B> DE ZOETE WEDD SECURITIES</TD>
+  </TR>
+</TBODY>
+
+<DIV tabIndex=-1 id=dojoTf_widget__AutoCompletePopup_0 class="dijitReset lookupResults" style="OVERFLOW: hidden; WIDTH: 400px; OVERFLOW-Y: auto; POSITION: ; TOP: -9999px" widgetId="dojoTf_widget__AutoCompletePopup_0">
+  <TABLE class="dijitReset dijitMenuTable " style="WIDTH: 100%" dojoAttachPoint="tableNode">
+    <THEAD class=dijitReset dojoAttachPoint="headerNode">
+      <TR class=dijitReset>
+        <TH>Name</TH>
+      </TR>
+    </THEAD>
+    <TBODY class=dijitReset dojoAttachPoint="bodyNode" dojoAttachEvent="onmouseup:_onBodyMouseUp,onmouseover:_onBodyMouseOver,onmouseout:_onBodyMouseOut">
+      <TR role=option class="dijitReset dijitMenuItem">
+        <TD><B>BMO CAPITAL MARKETS</B></TD>
+      </TR>
+      <TR role=option class="dijitReset dijitMenuItem">
+        <TD><B>BMO CAPITAL MARKETS</B> U.S.</TD>
+      </TR>
+    </TBODY>
+    <TBODY class="dijitReset dijitDisplayNone" dojoAttachPoint="messageNode"></TBODY>
+  </TABLE>
+</DIV>
+
+<!-- Search (button click) -->
+<INPUT onclick="return validatePages( 'ctl00__criteria__numPages','ctl00__criteria__toDate','ctl00__criteria__fromDate','ctl00__criteria_dateRange');" id=ctl00__criteria__searchButton class=ControlButton type=submit value=Search
+  name=ctl00$_criteria$_searchButton>
+
+<!-- select all (checkbox)-->
+<INPUT id=select-all-reports type=checkbox value="" name=whatever>
+
+<!-- View (button click)-->
+
+<BUTTON onclick="thomlet.viewSelected(true,false); return false;" title="View Selected" class=ControlButton><IMG src="/thomson_financial_research_web_ui_banker/3_21/Images/check.gif"> View</BUTTON>
+
+<!-- NEW WINDOW -->
+<!-- https://amr.thomsonone.com/thomson_financial_research_web_ui_banker/3_21/Resources/SelectedReports.html -->
+<!-- Select all reports-->
+<input id="ctl00_ctlTocDisplay_chkToc" type="checkbox" name="ctl00$ctlTocDisplay$chkToc" onclick="TreeviewCheckUncheck('ctl00_ctlTocDisplay_tblTop',this);" /><label for="ctl00_ctlTocDisplay_chkToc">Select All Reports</label>
+<!-- View (opens a new loading window and starts downloading) -->
+<div class="Inputs" >
+    <div class="ButtonArea">
+        <input type="submit" name="ctl00$ctlTocDisplay$btnSubmit" value="View" onclick="return onSubmit('T');" id="ctl00_ctlTocDisplay_btnSubmit" class="ControlButton" />
+
+        <input type="button" class="SecondaryControlButton" value="Close" onclick="top.close()">
+    </div>
+</div>
+<!-- TODO: NEEDS TO RENAME THE FILE SYMBOL_CONTRIBUTOR (e.g. HON_BARCLAYS) -->
+<!-- Close WIndows -->
+<!-- https://amr.thomsonone.com/thomson_financial_research_web_ui_banker/3_21/Resources/Loading.html -->
