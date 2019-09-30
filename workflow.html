@@ -43,6 +43,10 @@ for loop over all symbol/names read from xlsx) -->
 <!-- Contributor: not plain text, need to input text and then select-->
 <INPUT id=contributors.searchText size=57>
 
+
+<IFRAME onfocus="if (parent.onIframeFocus)parent.onIframeFocus();else if(parent.parent.onIframeFocus)(parent.parent.onIframeFocus);" id=frameWinC1-4054-8135 class=iframe height="100%" src="/Workspace/ThomletBlank.html" width="100%"
+  name=frameWinC1-4054-8135></IFRAME>
+
 <TBODY class=dijitReset dojoAttachPoint="bodyNode" dojoAttachEvent="onmouseup:_onBodyMouseUp,onmouseover:_onBodyMouseOver,onmouseout:_onBodyMouseOut">
   <TR role=option class="dijitReset dijitMenuItem">
     <TD><B>BARCLAYS</B></TD>
@@ -90,12 +94,12 @@ for loop over all symbol/names read from xlsx) -->
 <!-- Select all reports-->
 <input id="ctl00_ctlTocDisplay_chkToc" type="checkbox" name="ctl00$ctlTocDisplay$chkToc" onclick="TreeviewCheckUncheck('ctl00_ctlTocDisplay_tblTop',this);" /><label for="ctl00_ctlTocDisplay_chkToc">Select All Reports</label>
 <!-- View (opens a new loading window and starts downloading) -->
-<div class="Inputs" >
-    <div class="ButtonArea">
-        <input type="submit" name="ctl00$ctlTocDisplay$btnSubmit" value="View" onclick="return onSubmit('T');" id="ctl00_ctlTocDisplay_btnSubmit" class="ControlButton" />
+<div class="Inputs">
+  <div class="ButtonArea">
+    <input type="submit" name="ctl00$ctlTocDisplay$btnSubmit" value="View" onclick="return onSubmit('T');" id="ctl00_ctlTocDisplay_btnSubmit" class="ControlButton" />
 
-        <input type="button" class="SecondaryControlButton" value="Close" onclick="top.close()">
-    </div>
+    <input type="button" class="SecondaryControlButton" value="Close" onclick="top.close()">
+  </div>
 </div>
 <!-- TODO: NEEDS TO RENAME THE FILE SYMBOL_CONTRIBUTOR (e.g. HON_BARCLAYS) -->
 <!-- Close WIndows -->

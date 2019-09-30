@@ -19,9 +19,12 @@ https://www.python.org/downloads/windows/
 https://datatofish.com/add-python-to-windows-path/
 
 * Install Selenium, pands, xlrd:
+
+```
 pip install selenium
 pip install pandas
 pip install xlrd
+```
 
 * Add IEDriverServer to PATH, and configure IE per:
 https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
