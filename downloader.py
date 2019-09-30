@@ -131,24 +131,25 @@ def execute_app():
                     to_date.send_keys("01/01/18")
                     print("entererd dates")
 
+                    contributors = ["BARCLAYS", "BMO CAPITAL MARKET",
+                    "CREDIT SUISSE",
+                    "DEUTSCHE BANK", "EVERCORE ISI",
+                    "HSBC GLOBAL RESEARCH", "JEFFERIES",
+                    "JPMORGAN", "MORGAN STANLEY",
+                    "RBC CAPITAL MARKETS (CANADA)", "UBS RESEARCH",
+                    "WELLS FARGO SECURITIES, LLC"]
 
-                    # Contributor
-                    contributors = """BARCLAYS, BMO CAPITAL MARKET, CREDIT SUISSE,
-                    DEUTSCHE BANK, EVERCORE ISI,
-                    HSBC GLOBAL RESEARCH, JEFFERIES,
-                    JPMORGAN, MORGAN STANLEY,
-                    RBC CAPITAL MARKETS (CANADA),. UBS RESEARCH,
-                    WELLS FARGO SECURITIES, LLC"""
-
-                    ctb_input = driver.find_element_by_id("contributors.searchText")
-                    ctb_input.send_keys("BARCLAYS")
-                    time.sleep(2)
-                    # choose first by default
-                    # option = driver.find_element_by_xpath("//div/table/tbody/tr/td/b")
-                    option = driver.find_element_by_class_name("dijitMenuItem")
-                    # Strange offset problem with Dojo combobox
-                    h = ActionChains(driver).move_to_element(option).move_by_offset(0,-60)
-                    h.click().perform()
+                    # add contributors
+                    for contributor in contributors:
+                        ctb_input = driver.find_element_by_id("contributors.searchText")
+                        ctb_input.send_keys(contributor)
+                        time.sleep(2)
+                        # choose first by default
+                        # option = driver.find_element_by_xpath("//div/table/tbody/tr/td/b")
+                        option = driver.find_element_by_class_name("dijitMenuItem")
+                        # Strange offset problem with Dojo combobox
+                        h = ActionChains(driver).move_to_element(option).move_by_offset(0,-60)
+                        h.click().perform()
 
                     # Search
                     bt_search = driver.find_element_by_id("ctl00__criteria__searchButton")
