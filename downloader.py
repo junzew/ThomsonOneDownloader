@@ -1,8 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 import time
 import datetime
 import pandas as pd
+import copy
 # import pickle
 # https://stackoverflow.com/questions/48880646/python-selenium-use-a-browser-that-is-already-open-and-logged-in-with-login-cre
 # https://stackoverflow.com/questions/24925095/selenium-python-internet-explorer
@@ -17,6 +22,7 @@ driver_location = folder + "IEDriverServer.exe" # needs to be in PATH
 login_url = "https://login.ezproxy.library.ubc.ca/login?qurl=http%3a%2f%2fezproxy.library.ubc.ca%2flogin%2fthomsonone"
 url = "https://www.thomsonone.com/Workspace/Main.aspx?View=Action%3dOpen&BrandName=www.thomsonone.com&IsSsoLogin=True"
 driver = webdriver.Ie(driver_location)
+driver.set_page_load_timeout(60)
 success = []
 
 def load_symbols():
@@ -43,6 +49,7 @@ def execute_app():
     start_time = time.time()
     symbols = load_symbols()
     # Start interacting with the browser
+    driver.maximize_window()
     driver.get(login_url)
     print("Please log in")
     print("Go to Company View->Research")
@@ -57,7 +64,7 @@ def execute_app():
 
     # Refresh
     # driver.get(url)
-    driver.maximize_window()
+
     assert "Thomson One" in driver.title
 
     # bt_company_view = driver.find_element_by_id("td13")
@@ -88,91 +95,223 @@ def execute_app():
     # print("here")
     # time.sleep(10)
 
-    companies = ["RDSA-US", "AAPL-US", "ADBE-US"]# TODO only exact match
+    companies = ["AAPL-US", "ADBE-US","RDSA-US",]# TODO only exact match
     # companies = symbols
     total_count = len(companies)
     for i, company in enumerate(companies):
         print("{} Processing {}".format(datetime.datetime.now(), company))
         print("Elapsed time: {:.1f} seconds".format(time.time() - start_time))
         print("Progress: {}/{}={:.2f}%".format(i, total_count, i/total_count * 100))
-        for f in ["frameWinF7", "PCPWinF6", "PCPWinF7", "frameWinF6"]:
+        # for f in ["frameWinF7", "PCPWinF6", "PCPWinF7", "frameWinF6"]:
+        try:
+            print("try F7")
+            driver.switch_to.default_content()
+            driver.switch_to.frame("frameWinF7")
+            driver.switch_to.frame("PCPWinF7")
+            print("F7!")
+        except:
             try:
-                # print("try switching to frame {}".format(f))
-                driver.switch_to.frame(f)
-                # time.sleep(1)
-                trackinput = driver.find_element_by_id("trackInput")
-                print("find the textbox in frame {}".format(f))
-                trackinput.clear()
-                print("cleared")
-                trackinput.send_keys(company)
-                print("entered company name {}".format(company))
-                # time.sleep(1)
+                print("try F6")
+                driver.switch_to.default_content()
+                driver.switch_to.frame("frameWinF6")
+                driver.switch_to.frame("PCPWinF6")
+                print("F6!")
+            except:
+                print("Bad, can't switch into any frame")
+                exit()
+        try:
+            print("trying to find trackInput")
+            # print("try switching to frame {}".format(f))
+            # driver.switch_to.frame(f)
+            # print("switched to frame {}".format(f))
+            # time.sleep(1)
+            trackinput = driver.find_element_by_id("trackInput")
+            # print("find the textbox in frame {}".format(f))
+            trackinput.clear()
+            print("cleared")
+            trackinput.send_keys(company)
+            print("entered company name {}".format(company))
+            # time.sleep(1)
 
-                go = driver.find_element_by_id("go")
-                print("found go")
-                go.send_keys(u'\ue007')
-                print("clicked go")
-                time.sleep(3)
+            go = driver.find_element_by_id("go")
+            print("found go")
+            go.send_keys(u'\ue007')
+            print("clicked go")
+            time.sleep(3)
 
-                try:
-                    # print(driver.page_source)
-                    driver.switch_to.default_content()
-                    driver.switch_to.frame("frameWinC1-4054-8135")
-                    print("switched f1")
-                    # siwtch to child frame
-                    driver.switch_to.frame("PCPWinC1-4054-8135") #id =3234
-                    print("switched frame")
-                    from_date = driver.find_element_by_id("ctl00__criteria__fromDate")
-                    from_date.clear()
-                    from_date.send_keys("01/01/15")
+            try:
+                contributors = [
+                "BARCLAYS",
+                "BMO CAPITAL MARKET",
+                "CREDIT SUISSE",
+                "DEUTSCHE BANK",
+                "EVERCORE ISI",
+                "HSBC GLOBAL RESEARCH",
+                "JEFFERIES",
+                "JPMORGAN",
+                "MORGAN STANLEY",
+                "RBC CAPITAL MARKETS (CANADA)",
+                "UBS RESEARCH",
+                "WELLS FARGO SECURITIES, LLC"]
 
-                    to_date = driver.find_element_by_id("ctl00__criteria__toDate")
-                    to_date.clear()
-                    to_date.send_keys("01/01/18")
-                    print("entererd dates")
+                for contributor in contributors:
+                    try:
+                        print("{}_{}".format(company, contributor))
+                        print(driver.window_handles)
+                        # TODO: close unwanted windows, leave only search window
 
-                    contributors = ["BARCLAYS", "BMO CAPITAL MARKET",
-                    "CREDIT SUISSE",
-                    "DEUTSCHE BANK", "EVERCORE ISI",
-                    "HSBC GLOBAL RESEARCH", "JEFFERIES",
-                    "JPMORGAN", "MORGAN STANLEY",
-                    "RBC CAPITAL MARKETS (CANADA)", "UBS RESEARCH",
-                    "WELLS FARGO SECURITIES, LLC"]
+                        # print(driver.page_source)
+                        driver.switch_to.default_content()
+                        driver.switch_to.frame("frameWinC1-4054-8135")
+                        print("switched f1")
+                        # siwtch to child frame
+                        driver.switch_to.frame("PCPWinC1-4054-8135") #id =3234
+                        print("switched frame")
+                        time.sleep(1)
+                        from_date = driver.find_element_by_id("ctl00__criteria__fromDate")
+                        from_date.clear()
+                        from_date.send_keys("01/01/15")
 
-                    # add contributors
-                    for contributor in contributors:
+                        to_date = driver.find_element_by_id("ctl00__criteria__toDate")
+                        to_date.clear()
+                        to_date.send_keys("01/01/18")
+                        print("entererd dates")
+
+
+
                         ctb_input = driver.find_element_by_id("contributors.searchText")
+                        ctb_input.clear() # delete
+                        for i in range(5):
+                            ctb_input.send_keys('\b\b\b\b\b\b\b')
                         ctb_input.send_keys(contributor)
-                        time.sleep(2)
+                        time.sleep(3)
+                        print("entered {}".format(contributor))
                         # choose first by default
                         # option = driver.find_element_by_xpath("//div/table/tbody/tr/td/b")
                         option = driver.find_element_by_class_name("dijitMenuItem")
                         # Strange offset problem with Dojo combobox
                         h = ActionChains(driver).move_to_element(option).move_by_offset(0,-60)
                         h.click().perform()
+                        print("added contibutor {}".format(contributor))
 
-                    # Search
-                    bt_search = driver.find_element_by_id("ctl00__criteria__searchButton")
-                    bt_search.send_keys(u'\ue007')
-# web_driver.execute_script("dijit.byId('<id of select field>').set('value','<value you want it set to>')")
+                        # Search
+                        bt_search = driver.find_element_by_id("ctl00__criteria__searchButton")
+                        bt_search.send_keys(u'\ue007')
+                        print("clicked search button!")
+                        # web_driver.execute_script("dijit.byId('<id of select field>').set('value','<value you want it set to>')")
 
-                    # print(driver.page_source)
-                    driver.switch_to.default_content()
-                    driver.switch_to.frame(f)
-                    print("back to f")
-                except Exception as e:
-                    print(e)
-                    pass
+                        # Select all
+                        # sa = driver.find_element_by_id("select-all-reports")
+                        # sa.send_keys(u'\ue007') # doesn't work
+                        time.sleep(3) # wait for search result to appear
+                        driver.execute_script("document.getElementById('select-all-reports').click();")
+                        print("selected all")
+                        # window.showModalDialog = window.open
+                        # click View
+                        view = driver.find_element_by_xpath('//*[@title="View Selected"]')
+                        view.send_keys(u'\ue007')
+                        print("Clicked View!")
 
+                        # https://stackoverflow.com/questions/10629815/how-to-switch-to-new-window-in-selenium-for-python
+                        # time.sleep(5) # wait for window to open
+                        # windows = driver.window_handles
+                        # time.sleep(3)
+                        # print(driver.window_handles)
+                        # time.sleep(3)
+                        # print(driver.window_handles)
+                        WebDriverWait(driver, 20).until(EC.number_of_windows_to_be(2))
 
-                time.sleep(1)
-                success.append(company)
+                        # default_handle = driver.current_window_handle
+                        # handles = list(driver.window_handles)
+                        # assert len(handles) > 1
 
-                # TODO: filter results and generate reports
-                driver.switch_to.default_content()
-                break
-            except:
-                pass
+                        # handles.remove(default_handle)
+                        # assert len(handles) > 0
+
+                        # driver.switch_to.window(handles[0])
+                        current = driver.window_handles[0]
+                        print("current window is", current)
+                        newWindow = [window for window in driver.window_handles if window != current][0]
+                        driver.switch_to.window(newWindow)
+                        # driver.switch_to.window(windows[1])
+
+                        print("open NEW WINDOW")
+
+                        try:
+                            wait = WebDriverWait(driver, 60)
+                            wait.until(EC.frame_to_be_available_and_switch_to_it((By.NAME,'content')))
+                            # driver.switch_to.frame("content")
+
+                            # Select All Reports
+                            driver.execute_script("document.getElementById('ctl00_ctlTocDisplay_chkToc').click();")
+                            print("SELECT ALL REPORTS")
+                            # Click view
+                            view = driver.find_element_by_name("ctl00$ctlTocDisplay$btnSubmit")
+                            print("Clicked View")
+                            view.send_keys(u'\ue007')
+                        except Exception as e:
+                            print("Can't switch {}".format(e))
+                            driver.switch_to.window(current)
+                            continue
+
+                        # driver_copy = copy.deepcopy(driver)
+                        # driver.execute_script("document.getElementById('loading').style.visibility = 'hidden';")
+                        # print("Hide it !")
+
+                        # TODO: NEED TO close that annoying loading window
+                        try:
+                            handles = driver.window_handles
+                            print("windows:", handles)
+                            for h in handles:
+                                if h != current:
+                                    driver.switch_to.window(h)
+                                    print("closing", h)
+                                    driver.close()
+
+                            driver.switch_to.window(current)
+                            print("go back to search")
+                        except Exception as e:
+                            print("Can't switch back to search")
+
+                        # go back to search window
+                        # driver.switch_to.window(windows[0])
+
+                        # time.sleep(10)
+                        print("Download window opened")
+                        # do your stuffs
+                        # driver.close()
+                        # driver.switch_to.window(default_handle)
+                        # print("the windows:", driver.window_handles)
+                        # print("current:", current)
+                        # try:
+                        #     driver.switch_to.window(current)
+                        #     print("go back to search")
+                        # except Exception as e:
+                        #     print("Can't switch back to search")
+                        # see new_window.html
+
+                        # close opened window and go back
+                        # https://sqa.stackexchange.com/questions/31436/how-to-save-a-file-by-clicking-on-a-link-in-python-internet-explorer-windows
+                        # https://stackoverflow.com/questions/11449179/how-can-i-close-a-specific-window-using-selenium-webdriver-with-java
+                    except Exception as e:
+                        print("Exception: {}_{}".format(company, contributor))
+                        print(e)
+
+                # print(driver.page_source)
+                # driver.switch_to.default_content()
+                # driver.switch_to.frame(f)
+                # print("back to f")
+            except Exception as e:
+                print(e)
+
+            time.sleep(1)
+            success.append(company)
+
+            # TODO: filter results and generate reports
+            driver.switch_to.default_content()
+            break
+        except Exception as e:
+            print(e)
 
 def handle_cleanup():
     with open(folder + 'success.txt', 'w+') as f:

@@ -18,7 +18,7 @@ https://www.python.org/downloads/windows/
 * Add Python and Python/Scripts to PATH:
 https://datatofish.com/add-python-to-windows-path/
 
-* Install Selenium, pands, xlrd:
+* Install Selenium, pandas, xlrd:
 
 ```
 pip install selenium
