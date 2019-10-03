@@ -24,6 +24,7 @@ https://datatofish.com/add-python-to-windows-path/
 pip install selenium
 pip install pandas
 pip install xlrd
+pip install pywinauto==0.6.6
 pip install pyautogui
 ```
 
@@ -32,9 +33,7 @@ https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-conf
 
 ## To Run
 From cmd, execute `python downloader.py`
-
+Make sure that no other instance of IE is running.
 
 ## TODO
-* Pyautogui seems promising
-* Need to close the annoying loading window after downloads
-* Exception handling
+* Make sure mouse position is correct
