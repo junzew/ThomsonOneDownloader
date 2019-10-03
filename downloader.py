@@ -8,6 +8,7 @@ import time
 import datetime
 import pandas as pd
 import copy
+import pyautogui as gui
 # import pickle
 # https://stackoverflow.com/questions/48880646/python-selenium-use-a-browser-that-is-already-open-and-logged-in-with-login-cre
 # https://stackoverflow.com/questions/24925095/selenium-python-internet-explorer
@@ -25,6 +26,12 @@ driver = webdriver.Ie(driver_location)
 timeout = 5 #seconds
 driver.set_page_load_timeout(timeout)
 success = []
+
+# UPDATE IF NECESSARY
+# position of the 'inverse triangle' button in the download pop up
+save_as_x = 1212
+save_as_y = 221
+
 
 def load_symbols():
     try: # to load saved symbols
@@ -295,6 +302,13 @@ def execute_app():
                         # wait for download window to open
                         time.sleep(5)
                         print("Download popup should have opened")
+
+                        gui.moveTo(save_as_x, save_as_y) # position of the 'inverse triangle' button
+                        gui.click()
+                        gui.press('a') # save as
+                        gui.click()
+                        gui.typewrite(company + "_" + contributor)
+                        gui.press('enter')
                         try:
                             # this is intended to close the loading window
                             close_unwanted_windows(driver, current)

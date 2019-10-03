@@ -18,16 +18,23 @@ https://www.python.org/downloads/windows/
 * Add Python and Python/Scripts to PATH:
 https://datatofish.com/add-python-to-windows-path/
 
-* Install Selenium, pandas, xlrd:
+* Install dependencies:
 
 ```
 pip install selenium
 pip install pandas
 pip install xlrd
+pip install pyautogui
 ```
 
 * Add IEDriverServer to PATH, and configure IE per:
 https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-configuration
 
 ## To Run
-From cmd, execute python downloader.py
+From cmd, execute `python downloader.py`
+
+
+## TODO
+* Pyautogui seems promising
+* Need to close the annoying loading window after downloads
+* Exception handling
