@@ -1,6 +1,5 @@
 # ThomsonOneDownloader
 
-(Work In Progress)
 
 Dowanload pdf reports from the Thomson ONE database from
 http://resources.library.ubc.ca/1423
@@ -35,5 +34,3 @@ https://github.com/SeleniumHQ/selenium/wiki/InternetExplorerDriver#required-conf
 From cmd, execute `python downloader.py`
 Make sure that no other instance of IE is running.
 
-## TODO
-* Make sure mouse position is correct
